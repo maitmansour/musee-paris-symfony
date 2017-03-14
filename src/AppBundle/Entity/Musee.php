@@ -70,6 +70,29 @@ class Musee
      */
     private $statut;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="reouverture", type="string", length=255, nullable=true)
+     */
+    private $reouverture;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="fermetureAnnuelle", type="string", length=255, nullable=true)
+     */
+    private $fermetureAnnuelle;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="periodesOuverture", type="text", nullable=true)
+     */
+    private $periodesOuverture;
+    const OUVERT = 'OUVERT';
+    const FERME = 'FERME';
+
 
     /**
      * Get id
@@ -247,6 +270,78 @@ class Musee
     public function getStatut()
     {
         return $this->statut;
+    }
+
+    /**
+     * Set reouverture
+     *
+     * @param string $reouverture
+     *
+     * @return Musee
+     */
+    public function setReouverture($reouverture)
+    {
+        $this->reouverture = $reouverture;
+
+        return $this;
+    }
+
+    /**
+     * Get reouverture
+     *
+     * @return string
+     */
+    public function getReouverture()
+    {
+        return $this->reouverture;
+    }
+
+    /**
+     * Set fermetureAnnuelle
+     *
+     * @param string $fermetureAnnuelle
+     *
+     * @return Musee
+     */
+    public function setFermetureAnnuelle($fermetureAnnuelle)
+    {
+        $this->fermetureAnnuelle = $fermetureAnnuelle;
+
+        return $this;
+    }
+
+    /**
+     * Get fermetureAnnuelle
+     *
+     * @return string
+     */
+    public function getFermetureAnnuelle()
+    {
+        return $this->fermetureAnnuelle;
+    }
+
+    /**
+     * Set periodesOuverture
+     *
+     * @param string $periodesOuverture
+     *
+     * @return Musee
+     */
+    public function setPeriodesOuverture($periodesOuverture)
+    {
+        $this->periodesOuverture = $periodesOuverture;
+
+        return $this;
+    }
+
+    /**
+     * Get periodesOuverture
+     *
+     * @return string
+     */
+    public function getPeriodesOuverture()
+    {
+        return $this->periodesOuverture;
     }
 }
 
