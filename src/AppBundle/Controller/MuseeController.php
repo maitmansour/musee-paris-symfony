@@ -2,10 +2,15 @@
 // src/AppBundle/Controller/MuseeController.php
 
 namespace AppBundle\Controller;
-
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class MuseeController extends Controller
 {
@@ -50,7 +55,7 @@ class MuseeController extends Controller
   /**
   * @Route("/showMusee/{id}", name="musee_show")
   */
-  public function showMuseeAction($id)
+  public function showMuseeAction($id,Request $request)
   {
     $musee = $this->getDoctrine()
     ->getRepository('AppBundle:Musee')
@@ -64,7 +69,29 @@ class MuseeController extends Controller
     }
     $urlRetour="showTen/".$id;
 
-    return $this->render('showMusee.html.twig',array('musee' => $musee, 'retour' =>$urlRetour));
+    $form = $this->createFormBuilder()
+    ->add('auteur', TextType::class)
+    ->add('Commentaire', TextType::class)
+    ->add('Note', TextType::class)
+    ->add('Valider', SubmitType::class, array('label' => 'Commenter'))
+    ->getForm();
+
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+      var_dump($form);
+
+        // ... perform some action, such as saving the task to the database
+        // for example, if Task is a Doctrine entity, save it!
+        // $em = $this->getDoctrine()->getManager();
+        // $em->persist($task);
+        // $em->flush();
+
+      return $this->redirectToRoute('task_success');
+    }
+    return $this->render('showMusee.html.twig',array('musee' => $musee, 'retour' =>$urlRetour,'form' => $form->createView()));
 
   }
 

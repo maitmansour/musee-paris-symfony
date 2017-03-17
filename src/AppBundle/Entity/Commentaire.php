@@ -13,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Commentaire
 {
     /**
+     * @ORM\ManyToOne(targetEntity="Musee", inversedBy="Comentaire")
+     * @ORM\JoinColumn(name="musee_id", referencedColumnName="id")
+     */
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -24,23 +29,10 @@ class Commentaire
     /**
      * @var string
      *
-     * @ORM\Column(name="auteur", type="string", length=255)
+     * @ORM\Column(name="nom", type="string", length=255)
      */
     private $auteur;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="datetime")
-     */
-    private $date;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="note", type="integer")
-     */
-    private $note;
 
     /**
      * @var string
@@ -48,6 +40,20 @@ class Commentaire
      * @ORM\Column(name="contenu", type="text")
      */
     private $contenu;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="note", type="integer")
+     */
+    private $note;
+
 
 
     /**
@@ -82,6 +88,30 @@ class Commentaire
     public function getAuteur()
     {
         return $this->auteur;
+    }
+
+    /**
+     * Set contenu
+     *
+     * @param string $contenu
+     *
+     * @return Commentaire
+     */
+    public function setContenu($contenu)
+    {
+        $this->contenu = $contenu;
+
+        return $this;
+    }
+
+    /**
+     * Get contenu
+     *
+     * @return string
+     */
+    public function getContenu()
+    {
+        return $this->contenu;
     }
 
     /**
@@ -125,35 +155,10 @@ class Commentaire
     /**
      * Get note
      *
-     * @return int
+     * @return integer
      */
     public function getNote()
     {
         return $this->note;
     }
-
-    /**
-     * Set contenu
-     *
-     * @param string $contenu
-     *
-     * @return Commentaire
-     */
-    public function setContenu($contenu)
-    {
-        $this->contenu = $contenu;
-
-        return $this;
-    }
-
-    /**
-     * Get contenu
-     *
-     * @return string
-     */
-    public function getContenu()
-    {
-        return $this->contenu;
-    }
 }
-
