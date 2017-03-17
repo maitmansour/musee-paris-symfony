@@ -114,6 +114,19 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);
         }
 
+        if (0 === strpos($pathinfo, '/show')) {
+            // musees_show
+            if (0 === strpos($pathinfo, '/showTen') && preg_match('#^/showTen/(?P<nbpage>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'musees_show')), array (  '_controller' => 'AppBundle\\Controller\\MuseeController::showTenAction',));
+            }
+
+            // musee_show
+            if (0 === strpos($pathinfo, '/showMusee') && preg_match('#^/showMusee/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'musee_show')), array (  '_controller' => 'AppBundle\\Controller\\MuseeController::showMuseeAction',));
+            }
+
+        }
+
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }
 }

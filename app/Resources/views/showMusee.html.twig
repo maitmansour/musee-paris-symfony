@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="wrapper">
+	<div class="container">
+		<h1 align="center" ><span>{{ musee.nom }} </span> par 10 </h1>
+		<table class="table">
+			<th>Id</th>
+			<th>Nom</th>
+			<th>Adresse</th>
+			<th>Site web</th>
+			<th>Ville</th>
+			<th>Ouvert ?</th>
+			<th>Periodes ouvertures</th>
+
+			<tr>
+				<td>{{ musee.id }} </td>
+				<td>{{ musee.nom }} </td>
+				<td>{{ musee.adresse }}  </td> 
+				<td>{{ musee.siteWeb }} </td>
+				<td>{{ musee.ville }} </td>
+				<td>{{ musee.statut }} </td>
+				<td>{{ musee.periodesOuverture }}  </td> 
+
+			</tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td align="center"><a class="btn btn-info" href='/{{ retour }}' role="button">Retour</a> </td> 
+			<td></td>
+			<td></td>
+			<td></td>
+
+			<tr>
+
+			</tr>
+		</table>
+
+	</div>
+</div>
+{% endblock %}
