@@ -61,49 +61,54 @@ class MuseeController extends Controller
     ->getRepository('AppBundle:Musee')
     ->find($id);
 
+    $comments = $this->getDoctrine()
+    ->getRepository('AppBundle:Commentaire')
+    ->findAll();
 
-    if (!$musee) {
-      throw $this->createNotFoundException(
-        'AUCUN MUSEE N\'EST TROUVEE'
-        );
+    $note=0.00;
+    $nbAuteur=0;
+    foreach ($comments as $key => $value) {
+      $note+=$value->getNote();
+      $nbAuteur++;
     }
+    $note=$note/$nbAuteur;
+
+    
+
     $urlRetour="showTen/".$id;
 
     $form = $this->createFormBuilder()
     ->add('auteur', TextType::class)
     ->add('Commentaire', TextType::class)
     ->add('Note',  ChoiceType::class, array(
-    'choices'  => array(
+      'choices'  => array(
         '1' =>1 ,
         '2' =>2 ,
         '3' =>3 ,
         '4' =>4 ,
         '5' =>5 ,
-    )))
+        )))
     ->add('Valider', SubmitType::class, array('label' => 'Commenter'))
     ->getForm();
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+      
+      $infoCommentaire = $form->getData();
+      $commentaire = new Commentaire();
+      $commentaire->setAuteur($infoCommentaire['auteur']);
+      $commentaire->setContenu($infoCommentaire['Commentaire']);
+      $commentaire->setNote($infoCommentaire['Note']);
+      $commentaire->setDate(new \DateTime("now"));
+      $manager = $this->getDoctrine()->getManager();
+      $manager->persist($commentaire);
+      $manager->flush();
+      return $this->redirect($request->getUri());
 
-        $infoCommentaire = $form->getData();
-        $commentaire = new Commentaire();
-        $commentaire->setAuteur($infoCommentaire['auteur']);
-        $commentaire->setContenu($infoCommentaire['Commentaire']);
-        $commentaire->setNote($infoCommentaire['Note']);
-        $commentaire->setDate(date('Y-m-d H:i:s'));
-      var_dump($commentaire);
-      exit();
-    /*
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($task);
-        $em->flush();
-    */
-
-      return $this->redirectToRoute('task_success');
     }
-    return $this->render('showMusee.html.twig',array('musee' => $musee, 'retour' =>$urlRetour,'form' => $form->createView()));
+
+    return $this->render('showMusee.html.twig',array('note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour,'form' => $form->createView()));
 
   }
 

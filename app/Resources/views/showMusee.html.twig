@@ -5,39 +5,64 @@
 	<div class="container">
 		<h1 align="center" ><span>{{ musee.nom }} </span> </h1>
 		<table class="table">
-			<th>Id</th>
 			<th>Nom</th>
 			<th>Adresse</th>
 			<th>Site web</th>
 			<th>Ville</th>
 			<th>Ouvert ?</th>
-			<th>Periodes ouvertures</th>
+			<th>Note</th>
 
 			<tr>
-				<td>{{ musee.id }} </td>
 				<td>{{ musee.nom }} </td>
 				<td>{{ musee.adresse }}  </td> 
-				<td>{{ musee.siteWeb }} </td>
+				<td><a href="http://{{ musee.siteWeb }}">{{ musee.siteWeb }}</a> </td>
 				<td>{{ musee.ville }} </td>
 				<td>{{ musee.statut }} </td>
-				<td>{{ musee.periodesOuverture }}  </td> 
-
-			</tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td align="center"><a class="btn btn-info" href='/{{ retour }}' role="button">Retour</a> </td> 
-			<td></td>
-			<td></td>
-			<td></td>
-			<tr>
-
+				<td>{{ note }}  </td> 
 			</tr>
 		</table>
+		<h1 align="center" ><span>Commentaires </span> </h1>
+
+		<table class="table">
+
+			<th>Auteur</th>
+			<th>Commentaire</th>
+			<th>Date</th>
+			<th>Note</th>
+
+			{% for key, comment in comments %}
+			<tr>
+				<td>{{ comment.auteur }} </td>
+				<td>{{ comment.contenu }}  </td> 
+				<td>{{ comment.date|date('d/m/Y H:i') }} </td> 
+				<td>{{ comment.note}} </td> 
+			</tr>
+			{% endfor %}
+
+
+			<tr>
+				<td></td>
+				<td align="center"><a class="btn btn-info" href='/{{ retour }}' role="button">Retour</a> </td> 
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+
+		<h1 align="center" ><span>Ajouter un commentaire </span> </h1>
+
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+
+		<!--<div class="form-group">
+			<label>Auteur</label>
+			<input type="text" class="form-control"  placeholder="{{ form_widget(form.auteur) }}">
+			<label>Commentaire</label>
+			<input type="text" class="form-control"  placeholder="{{ form_widget(form.Commentaire) }}">
+			<label>Note</label>
+			{{ form_widget(form.Note) }}
+		</div>-->
 		
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
 	</div>
 </div>
 {% endblock %}
