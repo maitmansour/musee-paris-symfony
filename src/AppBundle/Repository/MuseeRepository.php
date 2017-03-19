@@ -10,4 +10,19 @@ namespace AppBundle\Repository;
  */
 class MuseeRepository extends \Doctrine\ORM\EntityRepository
 {
+		public function findArrondissements()
+  {
+
+  	
+      $query = $this->getEntityManager()
+          ->createQuery(
+              'SELECT DISTINCT m.ville, m.id FROM AppBundle:Musee m'
+          );
+
+      try {
+          return $query->getArrayResult();
+      } catch (\Doctrine\ORM\NoResultException $e) {
+          return null;
+      }
+  }
 }

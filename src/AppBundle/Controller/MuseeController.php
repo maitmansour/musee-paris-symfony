@@ -52,6 +52,62 @@ class MuseeController extends Controller
     return $this->render('showTen.html.twig',array('tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));
 
   }
+
+   /**
+  * @Route("/parArr/{id}", name="par_arr")
+  */
+   public function parArrondissementAction($id,Request $request)
+   {
+    //A ajouter : Find by Ville et affichage + ajouter une vue pour affichage
+    return $this->render('arrondissement.html.twig',array('form' => $form->createView()));
+
+
+  }
+
+
+   /**
+  * @Route("/Arrondissement", name="ar")
+  */
+   public function ArrondissementAction(Request $request)
+   {
+   // echo "tttttttttttttttttttttt  tt";
+    $musee = $this->getDoctrine()
+    ->getRepository('AppBundle:Musee')
+    ->findArrondissements();
+
+
+    if (!$musee) {
+      throw $this->createNotFoundException(
+        'AUCUN MUSEE N\'EST TROUVEE'
+        );
+    }
+
+    $villes=array();
+    foreach ($musee as $key => $value) {
+      $villes[$value['ville']]=$value['id'];
+    }
+    $form = $this->createFormBuilder()
+    ->add('Ville',  ChoiceType::class, array(
+      'choices'  => $villes))
+    ->add('Valider', SubmitType::class, array('label' => 'OK'))
+    ->getForm();
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+      $infoVille = $form->getData();
+    
+      return $this->redirect('parArr/'.$infoVille['Ville']);
+
+    }
+
+    return $this->render('arrondissement.html.twig',array('form' => $form->createView()));
+
+
+  }
+
+
   /**
   * @Route("/showMusee/{id}", name="musee_show")
   */
