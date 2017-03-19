@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
 <div id="wrapper">
 	<div class="container">
@@ -48,6 +49,9 @@
 			</tr>
 		</table>
 
+		<h1 align="center" ><span>MAP </span> </h1>
+		<div id="map" style="height: 500px;"></div>
+
 		<h1 align="center" ><span>Ajouter un commentaire </span> </h1>
 
 		{{ form_start(form) }}
@@ -61,8 +65,38 @@
 			<input type="text" class="form-control"  placeholder="{{ form_widget(form.Commentaire) }}">
 			<label>Note</label>
 			{{ form_widget(form.Note) }}
-		</div>-->
-		
+		</div>-->	
+
+
+
+<script>
+function draw_map(data) {  
+  var map = L.map('map');
+  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+  var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 14, attribution: osmAttrib});		
+  map.setView(new L.LatLng(48.86, 2.34),12);
+  map.addLayer(osm);
+  var marker;
+  data.forEach(function(musee){
+    marker = L.marker([musee.lat, musee.lon]).addTo(map);
+    marker.bindPopup("<b>"+musee.nom+"</b>").openPopup();
+  });
+  marker.openPopup();
+}
+
+var data = [
+  {
+    nom:'{{ musee.nom }} ',
+    lat:'{{ lat }}',
+    lon:'{{ lon }}'
+  },
+];
+
+draw_map(data);
+
+</script>
+	
 	</div>
 </div>
 {% endblock %}
