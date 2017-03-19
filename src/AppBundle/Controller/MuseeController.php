@@ -60,22 +60,23 @@ class MuseeController extends Controller
     $musee = $this->getDoctrine()
     ->getRepository('AppBundle:Musee')
     ->find($id);
-   
-   $comments = $this->getDoctrine()
-   ->getRepository('AppBundle:Commentaire')
-   ->findOneByIdJoinedToMusee($id);
+
+    $comments = $this->getDoctrine()
+    ->getRepository('AppBundle:Commentaire')
+    ->findByIdJoinedToMusee($id);
+
     $note=0.00;
     $nbAuteur=0;
-   var_dump($comments);
-   exit();
+    //var_dump($comments);
+  // exit();
     if (isset($comments)) {
-          foreach ($comments as $key => $value) {
-      $note+=$value->getNote();
-      $nbAuteur++;
-    }
-    if ($nbAuteur>0) {
+      foreach ($comments as $key => $value) {
+        $note+=$value['note'];
+        $nbAuteur++;
+      }
+      if ($nbAuteur>0) {
         $note=$note/$nbAuteur;
-    }
+      }
 
     }
 
