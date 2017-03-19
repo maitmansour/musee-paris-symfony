@@ -2,14 +2,14 @@
 // src/AppBundle/Controller/MuseeController.php
 
 namespace AppBundle\Controller;
+use AppBundle\Entity\Commentaire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class MuseeController extends Controller
@@ -72,22 +72,34 @@ class MuseeController extends Controller
     $form = $this->createFormBuilder()
     ->add('auteur', TextType::class)
     ->add('Commentaire', TextType::class)
-    ->add('Note', TextType::class)
+    ->add('Note',  ChoiceType::class, array(
+    'choices'  => array(
+        '1' =>1 ,
+        '2' =>2 ,
+        '3' =>3 ,
+        '4' =>4 ,
+        '5' =>5 ,
+    )))
     ->add('Valider', SubmitType::class, array('label' => 'Commenter'))
     ->getForm();
-
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
 
-      var_dump($form);
-
-        // ... perform some action, such as saving the task to the database
-        // for example, if Task is a Doctrine entity, save it!
-        // $em = $this->getDoctrine()->getManager();
-        // $em->persist($task);
-        // $em->flush();
+        $infoCommentaire = $form->getData();
+        $commentaire = new Commentaire();
+        $commentaire->setAuteur($infoCommentaire['auteur']);
+        $commentaire->setContenu($infoCommentaire['Commentaire']);
+        $commentaire->setNote($infoCommentaire['Note']);
+        $commentaire->setDate(date('Y-m-d H:i:s'));
+      var_dump($commentaire);
+      exit();
+    /*
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($task);
+        $em->flush();
+    */
 
       return $this->redirectToRoute('task_success');
     }

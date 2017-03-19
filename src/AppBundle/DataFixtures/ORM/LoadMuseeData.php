@@ -4,6 +4,7 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Musee;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class LoadMuseeData implements FixtureInterface
 {
@@ -13,15 +14,20 @@ class LoadMuseeData implements FixtureInterface
     $contents = file_get_contents($url);
     $contents = utf8_encode($contents);
     $json = json_decode($contents, true);
+    echo "aaaaaaaaaaaaaaaaa";
 
     foreach ($json as $object)
     {
+        echo "BBBBB";
+
         $fields = $object['fields'];
         if (isset($fields['coordonnees_']))
         {
-            $musee = new Musee();
+            echo "CCC";
 
-   // echo "aaaaaaaaaaaaaaaaa";
+            $musee = new Musee();
+            echo "DDD";
+
            // $musee->setReouverture($fields['']);
             $manager->persist($musee);
 
@@ -60,6 +66,8 @@ class LoadMuseeData implements FixtureInterface
                     break;
                 }
             }
+
+
 
         }
 
