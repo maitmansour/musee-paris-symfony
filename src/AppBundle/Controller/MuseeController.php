@@ -60,21 +60,32 @@ class MuseeController extends Controller
     $musee = $this->getDoctrine()
     ->getRepository('AppBundle:Musee')
     ->find($id);
-
-    $comments = $this->getDoctrine()
-    ->getRepository('AppBundle:Commentaire')
-    ->findAll();
-
+   
+   $comments = $this->getDoctrine()
+   ->getRepository('AppBundle:Commentaire')
+   ->findOneByIdJoinedToMusee($id);
     $note=0.00;
     $nbAuteur=0;
-    foreach ($comments as $key => $value) {
+   var_dump($comments);
+   exit();
+    if (isset($comments)) {
+          foreach ($comments as $key => $value) {
       $note+=$value->getNote();
       $nbAuteur++;
     }
-    $note=$note/$nbAuteur;
+    if ($nbAuteur>0) {
+        $note=$note/$nbAuteur;
+    }
+
+    }
 
     
 
+    $latlon=explode(";", $musee->getCoordonnees());
+   // var_dump($latlon);
+    //exit();
+    $lat=$latlon['0'];
+    $lon=$latlon['1'];
     $urlRetour="showTen/".$id;
 
     $form = $this->createFormBuilder()
@@ -94,7 +105,7 @@ class MuseeController extends Controller
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-      
+
       $infoCommentaire = $form->getData();
       $commentaire = new Commentaire();
       $commentaire->setAuteur($infoCommentaire['auteur']);
@@ -102,13 +113,16 @@ class MuseeController extends Controller
       $commentaire->setNote($infoCommentaire['Note']);
       $commentaire->setDate(new \DateTime("now"));
       $manager = $this->getDoctrine()->getManager();
+      $commentaire->setMusee($musee);
+      $manager->persist($musee);
       $manager->persist($commentaire);
+
       $manager->flush();
       return $this->redirect($request->getUri());
 
     }
 
-    return $this->render('showMusee.html.twig',array('note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour,'form' => $form->createView()));
+    return $this->render('showMusee.html.twig',array('lat'=>$lat,'lon'=>$lon,'note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour,'form' => $form->createView()));
 
   }
 

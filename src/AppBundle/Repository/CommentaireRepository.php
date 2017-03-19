@@ -10,4 +10,21 @@ namespace AppBundle\Repository;
  */
 class CommentaireRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findOneByIdJoinedToMusee($id)
+  {
+
+  	
+      $query = $this->getEntityManager()
+          ->createQuery(
+              'SELECT p FROM AppBundle:Commentaire p
+              JOIN p.musee c
+              WHERE p.id = :id'
+          )->setParameter('id', $id);
+
+      try {
+          return $query->getArrayResult();
+      } catch (\Doctrine\ORM\NoResultException $e) {
+          return null;
+      }
+  }
 }

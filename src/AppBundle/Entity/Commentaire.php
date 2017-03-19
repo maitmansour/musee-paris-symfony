@@ -12,10 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Commentaire
 {
+  
     /**
-     * @ORM\ManyToOne(targetEntity="Musee", inversedBy="Comentaire")
+     * @ORM\ManyToOne(targetEntity="musee", inversedBy="commentaires")
      * @ORM\JoinColumn(name="musee_id", referencedColumnName="id")
      */
+    protected $musee;
 
     /**
      * @var int
@@ -160,5 +162,29 @@ class Commentaire
     public function getNote()
     {
         return $this->note;
+    }
+
+    /**
+     * Set musee
+     *
+     * @param \AppBundle\Entity\musee $musee
+     *
+     * @return Commentaire
+     */
+    public function setMusee(\AppBundle\Entity\musee $musee = null)
+    {
+        $this->musee = $musee;
+
+        return $this;
+    }
+
+    /**
+     * Get musee
+     *
+     * @return \AppBundle\Entity\musee
+     */
+    public function getMusee()
+    {
+        return $this->musee;
     }
 }
