@@ -4,15 +4,15 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39
+class ComposerStaticInit56f39d957081880a5afec440b34fe534
 {
     public static $files = array (
         '92c8763cd6170fce6fcfe7e26b4e8c10' => __DIR__ . '/..' . '/symfony/phpunit-bridge/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         '32dcc8afd4335739640db7d200c1971d' => __DIR__ . '/..' . '/symfony/polyfill-apcu/bootstrap.php',
         '6bd86ff8f3d9a8caf1bb2dfcd5053330' => __DIR__ . '/..' . '/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php',
@@ -60,6 +60,7 @@ class ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39
         array (
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
             'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\FixturesBundle\\' => 31,
             'Doctrine\\Bundle\\DoctrineCacheBundle\\' => 36,
@@ -164,6 +165,10 @@ class ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
         ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
         'Doctrine\\Common\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
@@ -227,10 +232,6 @@ class ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39
             array (
                 0 => __DIR__ . '/..' . '/doctrine/collections/lib',
             ),
-            'Doctrine\\Common\\Annotations\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
-            ),
         ),
     );
 
@@ -253,11 +254,11 @@ class ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit8e3b21c733fc5c71a8f44e6a1873cd39::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit56f39d957081880a5afec440b34fe534::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit56f39d957081880a5afec440b34fe534::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit56f39d957081880a5afec440b34fe534::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit56f39d957081880a5afec440b34fe534::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit56f39d957081880a5afec440b34fe534::$classMap;
 
         }, null, ClassLoader::class);
     }
