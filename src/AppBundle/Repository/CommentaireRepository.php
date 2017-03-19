@@ -10,15 +10,15 @@ namespace AppBundle\Repository;
  */
 class CommentaireRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function findOneByIdJoinedToMusee($id)
+	public function findByIdJoinedToMusee($id)
   {
 
   	
       $query = $this->getEntityManager()
           ->createQuery(
-              'SELECT p FROM AppBundle:Commentaire p
-              JOIN p.musee c
-              WHERE p.id = :id'
+              'SELECT c FROM AppBundle:Commentaire c
+              JOIN c.musee m
+              WHERE m.id = :id'
           )->setParameter('id', $id);
 
       try {
