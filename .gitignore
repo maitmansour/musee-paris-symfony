@@ -8,8 +8,8 @@ composer.json
 composer.lock
 
 # Parameters
-/app/config/parameters.yml
-/app/config/parameters.ini
+app/config/parameters.yml
+app/config/parameters.ini
 
 # Managed by Composer
 bin
