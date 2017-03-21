@@ -91,11 +91,11 @@
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
     <parameter key="kernel.container_class">appDevDebugProjectContainer</parameter>
-    <parameter key="database_host">localhost</parameter>
+    <parameter key="database_host">ust-info</parameter>
     <parameter key="database_port">null</parameter>
     <parameter key="database_name">am163898</parameter>
-    <parameter key="database_user">root</parameter>
-    <parameter key="database_password">null</parameter>
+    <parameter key="database_user">am163898</parameter>
+    <parameter key="database_password">20163898</parameter>
     <parameter key="mailer_transport">smtp</parameter>
     <parameter key="mailer_host">127.0.0.1</parameter>
     <parameter key="mailer_user">null</parameter>
@@ -461,7 +461,7 @@
                 <tag name="cache.pool" clearer="cache.default_clearer"/>
                 <argument>rJ44Cn-Ir2</argument>
                 <argument>0</argument>
-                <argument>LL2xKtFrAxGHyqfwIg9u3S</argument>
+                <argument>X2StlrYy3mwNBWuQU7sG78</argument>
                 <argument>/home/etudiant/bm163251/TP-MUSEE/var/cache/dev/pools</argument>
                 <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
                 <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -644,7 +644,7 @@
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <argument>WhJdzv3Hf6</argument>
       <argument>0</argument>
-      <argument>LL2xKtFrAxGHyqfwIg9u3S</argument>
+      <argument>X2StlrYy3mwNBWuQU7sG78</argument>
       <argument>/home/etudiant/bm163251/TP-MUSEE/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -654,7 +654,7 @@
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <argument>6PcQbhJsIR</argument>
       <argument>0</argument>
-      <argument>LL2xKtFrAxGHyqfwIg9u3S</argument>
+      <argument>X2StlrYy3mwNBWuQU7sG78</argument>
       <argument>/home/etudiant/bm163251/TP-MUSEE/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -1647,7 +1647,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>58d12aa4998213.41273901</argument>
+            <argument>58d13791d92578.29021317</argument>
           </service>
         </argument>
       </argument>
@@ -1795,7 +1795,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>58d12aa4998213.41273901</argument>
+            <argument>58d13791d92578.29021317</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -2163,11 +2163,11 @@
     <service id="doctrine.dbal.default_connection" class="Doctrine\DBAL\Connection">
       <argument type="collection">
         <argument key="driver">pdo_mysql</argument>
-        <argument key="host">localhost</argument>
+        <argument key="host">ust-info</argument>
         <argument key="port">null</argument>
         <argument key="dbname">am163898</argument>
-        <argument key="user">root</argument>
-        <argument key="password">null</argument>
+        <argument key="user">am163898</argument>
+        <argument key="password">20163898</argument>
         <argument key="charset">UTF8</argument>
         <argument key="driverOptions" type="collection"/>
         <argument key="defaultTableOptions" type="collection"/>
