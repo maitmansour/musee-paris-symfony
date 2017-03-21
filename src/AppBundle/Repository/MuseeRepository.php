@@ -10,13 +10,30 @@ namespace AppBundle\Repository;
  */
 class MuseeRepository extends \Doctrine\ORM\EntityRepository
 {
-		public function findArrondissements()
+    public function findArrondissements()
   {
 
-  	
+    
       $query = $this->getEntityManager()
           ->createQuery(
-              'SELECT DISTINCT m.ville, m.id FROM AppBundle:Musee m'
+              'SELECT DISTINCT m.codePostal, m.id FROM AppBundle:Musee m
+              WHERE m.codePostal>75000 AND m.codePostal < 75020'
+          );
+
+      try {
+          return $query->getArrayResult();
+      } catch (\Doctrine\ORM\NoResultException $e) {
+          return null;
+      }
+  }
+    public function findByArrondissement($cp)
+  {
+
+    
+      $query = $this->getEntityManager()
+          ->createQuery(
+              'SELECT  m FROM AppBundle:Musee m
+              WHERE m.codePostal='.$cp
           );
 
       try {
