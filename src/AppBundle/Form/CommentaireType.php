@@ -2,7 +2,7 @@
 // src/AppBundle/Form/MuseeType.php
 
 namespace AppBundle\Form;
-use AppBundle\Entity\Musee;
+use AppBundle\Entity\Commentaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextAreaType;
 
-class MuseeType extends AbstractType
+class CommentaireType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -23,21 +23,17 @@ class MuseeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
      $builder
-     ->add('nom')
-     ->add('coordonnees', TextType::class)
-     ->add('statut', ChoiceType::class, array(
-        'choices' => array(
-            Musee::OUVERT => Musee::OUVERT ,
-            Musee::FERME => Musee::FERME
-            )))
-     ->add('siteWeb', UrlType::class, ['required' => false])
-     ->add('adresse', TextType::class, ['required' => false])
-     ->add('codePostal', TextType::class,['required' => false])
-     ->add('ville', TextType::class,['required' => false])
-     ->add('reouverture', TextType::class,['required' => false])
-     ->add('fermetureAnnuelle', TextType::class,['required' => false])
-     ->add('periodesOuverture', TextType::class,['required' => false])
-     ->add('save', SubmitType::class)
+     ->add('auteur', TextType::class)
+    ->add('contenu', TextType::class)
+    ->add('Note',  ChoiceType::class, array(
+      'choices'  => array(
+        '1' =>1 ,
+        '2' =>2 ,
+        '3' =>3 ,
+        '4' =>4 ,
+        '5' =>5 ,
+        )))
+    ->add('Valider', SubmitType::class, array('label' => 'Commenter'))
      ;
 
 
@@ -49,7 +45,7 @@ class MuseeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Musee'
+            'data_class' => 'AppBundle\Entity\Commentaire'
             ));
     }
 }
