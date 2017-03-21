@@ -2,7 +2,9 @@
 // src/AppBundle/Controller/MuseeController.php
 
 namespace AppBundle\Controller;
+use AppBundle\Form\MuseeType;
 use AppBundle\Entity\Commentaire;
+use AppBundle\Entity\Musee;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,6 +16,24 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MuseeController extends Controller
 {
+
+/**
+  * Creates a new Musee entity.
+  *
+  * @Route("/new", name="musee_new")
+  */
+ public function newAction(Request $request)
+ {
+     $musee = new Musee();
+     $form = $this->createForm('AppBundle\Form\MuseeType', $musee);
+     $form->handleRequest($request);
+
+     echo "string";
+       return $this->render('newMusee.html.twig', array(
+         'form' => $form->createView(),
+     ));
+
+}
 
   /**
   * @Route("/showTen/{nbpage}", name="musees_show")
