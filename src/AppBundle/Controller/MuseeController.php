@@ -8,6 +8,7 @@ use AppBundle\Entity\Musee;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,19 +20,29 @@ class MuseeController extends Controller
 
 /**
   * Creates a new Musee entity.
-  *
+  *@Method({"GET", "POST"})
   * @Route("/new", name="musee_new")
   */
- public function newAction(Request $request)
- {
-     $musee = new Musee();
-     $form = $this->createForm('AppBundle\Form\MuseeType', $musee);
-     $form->handleRequest($request);
+public function newAction(Request $request)
+{
+ $musee = new Musee();
+ $form = $this->createForm('AppBundle\Form\MuseeType', $musee);
 
-     echo "string";
-       return $this->render('newMusee.html.twig', array(
-         'form' => $form->createView(),
-     ));
+ $form->handleRequest($request);
+
+ if ($form->isSubmitted() && $form->isValid()) {
+       //     var_dump($form);
+  $manager = $this->getDoctrine()->getManager();
+  $manager->persist($musee);
+  $manager->flush();
+
+  return $this->redirect('/');
+
+}
+
+return $this->render('newMusee.html.twig', array(
+ 'form' => $form->createView(),
+ ));
 
 }
 
@@ -117,7 +128,7 @@ class MuseeController extends Controller
     if ($form->isSubmitted() && $form->isValid()) {
 
       $infoVille = $form->getData();
-    
+
       return $this->redirect('parArr/'.$infoVille['Ville']);
 
     }
@@ -159,42 +170,24 @@ class MuseeController extends Controller
     
 
     $latlon=explode(";", $musee->getCoordonnees());
-   // var_dump($latlon);
-    //exit();
     $lat=$latlon['0'];
     $lon=$latlon['1'];
     $urlRetour="showTen/".$id;
 
-    $form = $this->createFormBuilder()
-    ->add('auteur', TextType::class)
-    ->add('Commentaire', TextType::class)
-    ->add('Note',  ChoiceType::class, array(
-      'choices'  => array(
-        '1' =>1 ,
-        '2' =>2 ,
-        '3' =>3 ,
-        '4' =>4 ,
-        '5' =>5 ,
-        )))
-    ->add('Valider', SubmitType::class, array('label' => 'Commenter'))
-    ->getForm();
+
+    $commentaire = new Commentaire();
+    $form = $this->createForm('AppBundle\Form\CommentaireType', $commentaire);
 
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-
-      $infoCommentaire = $form->getData();
-      $commentaire = new Commentaire();
-      $commentaire->setAuteur($infoCommentaire['auteur']);
-      $commentaire->setContenu($infoCommentaire['Commentaire']);
-      $commentaire->setNote($infoCommentaire['Note']);
-      $commentaire->setDate(new \DateTime("now"));
       $manager = $this->getDoctrine()->getManager();
+      $commentaire->setDate(new \DateTime("now"));
       $commentaire->setMusee($musee);
-      $manager->persist($musee);
       $manager->persist($commentaire);
-
       $manager->flush();
+
+
       return $this->redirect($request->getUri());
 
     }
