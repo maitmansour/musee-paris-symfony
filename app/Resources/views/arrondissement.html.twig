@@ -4,11 +4,43 @@
 {% block body %}
 <div id="wrapper">
 	<div class="container">
-		<h1 align="center" ><span>Afficher par ... </span> </h1>
-		{{ form_start(form) }}
-		{{ form_widget(form) }}
-		{{ form_end(form) }}
+		<h1 align="center" ><span>Cliquer sur l'arrondissement souhaiter</span> </h1>
+		<img src="paris.png" alt="" usemap="#Map" />
+		<map name="Map" id="Map">
+			<area alt="" title="" href="parisArrondissement/01" shape="poly" coords="612,363,576,447,432,368,473,306" />
+			<area alt="" title="" href="parisArrondissement/02" shape="poly" coords="631,307,612,359,466,304,547,288" />
+			<area alt="" title="" href="parisArrondissement/03" shape="poly" coords="634,314,610,378,717,436,689,324" />
+			<area alt="" title="" href="parisArrondissement/04" shape="poly" coords="607,381,579,453,692,521,717,441" />
+			<area alt="" title="" href="parisArrondissement/05" shape="poly" coords="574,453,526,575,620,607,678,576,701,531" />
+			<area alt="" title="" href="parisArrondissement/06" shape="poly" coords="520,574,412,515,479,467,503,412,567,457" />
+			<area alt="" title="" href="parisArrondissement/07" shape="poly" coords="323,368,285,374,255,414,353,514,378,506,390,523,470,467,498,410,421,363" />
+			<area alt="" title="" href="parisArrondissement/08" shape="poly" coords="473,183,298,234,281,269,323,364,419,358,462,307" />
+			<area alt="" title="" href="parisArrondissement/09" shape="poly" coords="479,183,490,172,545,199,603,184,596,292,547,285,470,300" />
+			<area alt="" title="" href="/parisArrondissement/10" shape="poly" coords="608,181,601,294,692,322,767,290,731,238,724,183" />
+			<area alt="" title="" href="/parisArrondissement/11" shape="poly" coords="772,290,691,326,720,458,797,483,903,507,855,418" />
+			<area alt="" title="" href="/parisArrondissement/12" shape="poly" coords="842,706,978,624,995,520,802,488,725,460,695,521" />
+			<area alt="" title="" href="/parisArrondissement/13" shape="poly" coords="567,796,631,779,642,792,714,787,840,709,703,536,678,581,622,609,562,596" />
+			<area alt="" title="" href="/parisArrondissement/14" shape="poly" coords="454,544,317,710,503,771,499,787,557,793,559,594" />
+			<area alt="" title="" href="/parisArrondissement/15" shape="poly" coords="250,414,79,644,152,697,193,653,315,713,446,546" />
+			<area alt="" title="" href="/parisArrondissement/16" shape="poly" coords="192,232,30,525,25,588,80,628,283,370,305,330,276,270" />
+			<area alt="" title="" href="/parisArrondissement/17" shape="poly" coords="486,27,425,30,267,124,194,224,280,266,325,217,468,184" />
+			<area alt="" title="" href="/parisArrondissement/18" shape="poly" coords="493,30,476,175,520,173,548,194,699,176,728,18" />
+			<area alt="" title="" href="/parisArrondissement/19" shape="poly" coords="733,19,703,174,734,179,770,287,972,235,881,49,826,14" />
+			<area alt="" title="" href="/parisArrondissement/20" shape="poly" coords="974,240,776,290,902,499,1000,519" />
+		</map>
+
+		<table>
+	<tr>
+		<td align="center"><a class="btn btn-info" href='/' role="button">Accueil</a> </td> 
+
+	</tr>
+</table>
+
+
 	</div>
+
 </div>
 
+
 {% endblock %}
+

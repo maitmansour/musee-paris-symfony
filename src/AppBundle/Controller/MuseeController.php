@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -74,7 +75,7 @@ return $this->render('newMusee.html.twig', array(
     $precedent=$nbpage-10<0?0:$nbpage-10;
     $suivant=$nbpage+10>$dernier?$dernier:$nbpage+10;
 
-    return $this->render('showTen.html.twig',array('tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));
+    return $this->render('showTen.html.twig',array( 'tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));
   }
 
  /**
@@ -165,7 +166,7 @@ return $this->render('newMusee.html.twig', array(
     var_dump($musee);
     exit();
 
-   
+
     //Remplissage de tableau des musees à afficher
     $tableauDeMusee= array();
     for ($i=$nbpage; $i < $nbpage+3; $i++) { 
@@ -183,15 +184,26 @@ return $this->render('newMusee.html.twig', array(
 
    /**
    *Selection de l'arrondissement 
-  * @Route("/Arrondissement", name="ar")
+  * @Route("/Arrondissement", name="arrondissements")
   */
    public function ArrondissementAction(Request $request)
    {
 
+    return $this->render('arrondissement.html.twig');
+  }
+
+   /**
+   *Selection de l'arrondissement 
+  * @Route("/parisArrondissement/{id}", name="Paris")
+  */
+   public function parisArrondissementAction($id,Request $request)
+   {
+
+
     //Les arrondissmeents de paris
     $musee = $this->getDoctrine()
     ->getRepository('AppBundle:Musee')
-    ->findArrondissements();
+    ->findByArrondissement($id);
 
     if (!$musee) {
       throw $this->createNotFoundException(
@@ -199,24 +211,10 @@ return $this->render('newMusee.html.twig', array(
         );
     }
 
-    $villes=array();
-    foreach ($musee as $key => $value) {
-      $arrondissements[substr($value['codePostal'], 3,2)]=$value['codePostal'];
-    }
 
-    //Génaration du formulaire
-    $form = $this->createFormBuilder()
-    ->add('Arrondissement',  ChoiceType::class, array(
-      'choices'  => $arrondissements))
-    ->add('Valider', SubmitType::class, array('label' => 'GO !'))
-    ->getForm();
+    //var_dump($musee);
+   // exit();
 
-    //redirection vers la page d'affichage
-    $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid()) {
-      $infoArrondissements = $form->getData();
-      return $this->redirect('parArr/'.$infoArrondissements['Arrondissement']);
-    }
-    return $this->render('arrondissement.html.twig',array('form' => $form->createView()));
-  }
-}
+     return $this->render('showArrondissement.html.twig', array('tableau'=>$musee,'ar'=>$id));
+   }
+ }

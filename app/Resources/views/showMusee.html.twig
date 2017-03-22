@@ -16,7 +16,7 @@
 			<tr>
 				<td>{{ musee.nom }} </td>
 				<td>{{ musee.adresse }}  </td> 
-				<td><a href="http://{{ musee.siteWeb }}">{{ musee.siteWeb }}</a> </td>
+				<td><a href="http://{{ musee.siteWeb }}" target="_blank"  >{{ musee.siteWeb }}</a> </td>
 				<td>{{ musee.ville }} </td>
 				<td>{{ musee.statut }} </td>
 				<td>{{ note }}  </td> 
@@ -43,7 +43,7 @@
 
 			<tr>
 				<td></td>
-				<td align="center"><a class="btn btn-info" href='/{{ retour }}' role="button">Retour</a> </td> 
+				<td align="center"><a class="btn btn-info" href='/{{ retour }}'   >Retour</a> </td> 
 				<td></td>
 				<td></td>
 			</tr>
@@ -69,34 +69,34 @@
 
 
 
-<script>
-function draw_map(data) {  
-  var map = L.map('map');
-  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-  var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-  var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 14, attribution: osmAttrib});		
-  map.setView(new L.LatLng(48.86, 2.34),12);
-  map.addLayer(osm);
-  var marker;
-  data.forEach(function(musee){
-    marker = L.marker([musee.lat, musee.lon]).addTo(map);
-    marker.bindPopup("<b>"+musee.nom+"</b>").openPopup();
-  });
-  marker.openPopup();
-}
+		<script>
+			function draw_map(data) {  
+				var map = L.map('map');
+				var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+				var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+				var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 14, attribution: osmAttrib});		
+				map.setView(new L.LatLng(48.86, 2.34),12);
+				map.addLayer(osm);
+				var marker;
+				data.forEach(function(musee){
+					marker = L.marker([musee.lat, musee.lon]).addTo(map);
+					marker.bindPopup("<b>"+musee.nom+"</b>").openPopup();
+				});
+				marker.openPopup();
+			}
 
-var data = [
-  {
-    nom:'{{ musee.nom }} ',
-    lat:'{{ lat }}',
-    lon:'{{ lon }}'
-  }
-];
+			var data = [
+			{
+				nom:'{{ musee.nom }} ',
+				lat:'{{ lat }}',
+				lon:'{{ lon }}'
+			}
+			];
 
-draw_map(data);
+			draw_map(data);
 
-</script>
-	
+		</script>
+
 	</div>
 </div>
 {% endblock %}

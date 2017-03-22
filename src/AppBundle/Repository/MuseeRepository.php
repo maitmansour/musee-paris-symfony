@@ -33,7 +33,7 @@ class MuseeRepository extends \Doctrine\ORM\EntityRepository
       $query = $this->getEntityManager()
           ->createQuery(
               'SELECT  m FROM AppBundle:Musee m
-              WHERE m.codePostal='.$cp
+              WHERE m.codePostal=750'.$cp
           );
 
       try {

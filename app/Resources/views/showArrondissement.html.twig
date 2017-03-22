@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="wrapper">
+  <div class="container">
+    <h1 align="center" ><span>Musees d'arrondissment </span>N°{{ar}}</h1>
+    <table class="table">
+        <th>Nom</th>
+        <th>Adresse</th>
+        <th>Plus d'informations </th>
+
+        {% for key, musee in tableau %}
+        <tr>
+            <td>{{ musee.nom }} </td>
+            <td>{{ musee.adresse }}  </td> 
+            <td><a href="/showMusee/{{musee.id}}"> Plus d'info.. </a> </td> 
+        </tr>
+        {% endfor %}
+        <tr>
+           <td align="center"><a class="btn btn-info" href="/Arrondissement" role="button">Retour vers les arrondissements</a> </td> 
+        <td></td>
+        <td></td>
+        </tr>
+    </table>
+
+
+</div>
+</div>
+{% endblock %}
