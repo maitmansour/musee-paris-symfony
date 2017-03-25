@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class MuseeController extends Controller
 {
 
+
 /**
   * Creates a new Musee entity.
   *@Method({"GET", "POST"})
@@ -47,35 +48,69 @@ return $this->render('newMusee.html.twig', array(
 
 }
 
+
+  /**
+  * Show Ten Musees
+  * @Route("/showTen", name="show_musees0")
+  */
+  public function showTenActionRedirect(Request $request)
+  {
+ $musee = $this->getDoctrine()
+    ->getRepository('AppBundle:Musee')
+    ->findAll();
+
+     $paginator  = $this->get('knp_paginator');
+    $pagination = $paginator->paginate(
+        $musee,
+        $request->query->get('page', 1)/*page number*/,
+        10/*limit per page*/
+    );
+    return $this->render('list.html.twig', array('pagination' => $pagination));
+
+  }
   /**
   * Show Ten Musees
   * @Route("/showTen/{nbpage}", name="show_musees")
   */
-  public function showTenAction($nbpage)
+  public function showTenAction($nbpage,Request $request)
   {
     $musee = $this->getDoctrine()
     ->getRepository('AppBundle:Musee')
     ->findAll();
 
-    if (!$musee) {
+     $paginator  = $this->get('knp_paginator');
+    $pagination = $paginator->paginate(
+        $musee,
+        $request->query->get('page', 1)/*page number*/,
+        10/*limit per page*/
+    );
+    return $this->render('list.html.twig', array('pagination' => $pagination));
+
+/*
+    if (!$musee0) {
       throw $this->createNotFoundException(
         'AUCUN MUSEE N\'EST TROUVEE'
         );
     }
 
+    $musee =array();
+    foreach ($musee0 as $key => $value) {
+      $musee[ $musee0[$key]->getId()]=$value;
+    }
+
     //Remplissage de tableau des musees à afficher
     $tableauDeMusee= array();
     for ($i=$nbpage; $i < $nbpage+10; $i++) { 
-      array_push($tableauDeMusee, array('id'=> $i,'nom'=>$musee[$i]->getNom(),'adresse'=>$musee[$i]->getAdresse(),'key'=>'/showMusee/'.$i));
+      array_push($tableauDeMusee, array('id'=> $musee[$i]->getId(),'nom'=>$musee[$i]->getNom(),'adresse'=>$musee[$i]->getAdresse(),'key'=>'/showMusee/'.$musee[$i]->getId()));
     }
 
     //Pour le deplacements entre les pages des musees( page de 10 )
-    $dernier=count($musee)-10;
-    $debut=0;
+    $dernier=max(array_keys($musee))-10;
+    $debut=min(array_keys($musee));
     $precedent=$nbpage-10<0?0:$nbpage-10;
     $suivant=$nbpage+10>$dernier?$dernier:$nbpage+10;
 
-    return $this->render('showTen.html.twig',array( 'tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));
+    return $this->render('showTen.html.twig',array( 'tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));*/
   }
 
  /**
@@ -97,6 +132,7 @@ return $this->render('newMusee.html.twig', array(
   }
   return $note;
 }
+
 
 
   /**
