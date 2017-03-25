@@ -14,19 +14,19 @@ class LoadMuseeData implements FixtureInterface
     $contents = file_get_contents($url);
     $contents = utf8_encode($contents);
     $json = json_decode($contents, true);
-    echo "aaaaaaaaaaaaaaaaa";
+  //  echo "aaaaaaaaaaaaaaaaa";
 
     foreach ($json as $object)
     {
-        echo "BBBBB";
+//        echo "BBBBB";
 
         $fields = $object['fields'];
         if (isset($fields['coordonnees_']))
         {
-            echo "CCC";
+  //          echo "CCC";
 
             $musee = new Musee();
-            echo "DDD";
+    //        echo "DDD";
 
            // $musee->setReouverture($fields['']);
             $manager->persist($musee);

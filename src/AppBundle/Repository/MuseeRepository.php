@@ -12,8 +12,6 @@ class MuseeRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findArrondissements()
   {
-
-    
       $query = $this->getEntityManager()
           ->createQuery(
               'SELECT DISTINCT m.codePostal, m.id FROM AppBundle:Musee m
@@ -42,4 +40,20 @@ class MuseeRepository extends \Doctrine\ORM\EntityRepository
           return null;
       }
   }
+
+      public function findMinId()
+  {
+      $query = $this->getEntityManager()
+          ->createQuery(
+              'SELECT  MIN(m.id) FROM AppBundle:Musee m'
+          );
+
+      try {
+          return $query->getSingleScalarResult();
+      } catch (\Doctrine\ORM\NoResultException $e) {
+          return null;
+      }
+  }
+
+
 }
