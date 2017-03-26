@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="wrapper">
+	<div class="container">
+		<h1 align="center" ><span>Nombre total des Musees</span> 	{{ pagination.getTotalItemCount }}
+		</h1>
+		<table class="table table-striped">
+			<th>{{ knp_pagination_sortable(pagination, 'Nom de Musee', 'a.nom') }}</th>
+			<th >{{ knp_pagination_sortable(pagination, 'Statut', 'a.statut') }}</th>
+			<th >{{ knp_pagination_sortable(pagination, 'Site Web', 'a.siteWeb') }}</th>
+			<th ></th>
+
+
+			{% for article in pagination %}
+			<tr {% if loop.index is odd %}class="color"{% endif %}>
+				<td  {% if pagination.isSorted('a.nom') %} bgcolor="#ffff35"{% endif %}  >{{ article.nom }}</td>
+				<td {% if pagination.isSorted('a.statut') %} bgcolor="#ffff35"{% endif %}  >{{ article.statut }}</td>
+				<td {% if pagination.isSorted('a.siteWeb') %} bgcolor="#ffff35"{% endif %}  ><a href="http://{{ article.siteWeb }} " target="_blank"  >{{ article.siteWeb }} </a> </td>
+				<td ><a href="/unMusee/{{ article.id }}" target="_blank"  >Plus d'info... </a> </td>
+				
+			</tr>
+			{% endfor %}
+
+
+		{#	<tr>
+				<td align="center"><a class="btn btn-info" href='{{ debut }}' role="button">Début</a> </td> 
+				<td align="center"><a class="btn btn-success" href='{{ precedent }}' role="button"> Précédent</a> </td> 
+				<td align="center"><a class="btn btn-success" href='{{ suivant }}' role="button">Suivant</a> </td>
+				<td align="center"><a class="btn btn-info" href='{{ dernier }}' role="button">Dernier </a> </td>
+				<td align="center"><a class="btn btn-info" href='/' role="button">Accueil</a> </td> 
+			</tr> #}
+		</table>
+
+
+			<div class="navigation  text-center">
+				{{ knp_pagination_render(pagination) }}
+			</div>
+	</div>
+</div>
+{% endblock %}

@@ -25,7 +25,7 @@ class MuseeController extends Controller
   *@Method({"GET", "POST"})
   * @Route("/new", name="new_musee")
   */
-public function newAction(Request $request)
+public function newMuseeAction(Request $request)
 {
 
   //Géneration de form
@@ -48,99 +48,52 @@ return $this->render('newMusee.html.twig', array(
 
 }
 
-
   /**
-  * Show Ten Musees
-  * @Route("/showTen", name="show_musees0")
+  * Afficher 10 Musees
+  * @Route("/liste", name="liste_musees")
   */
-  public function showTenActionRedirect(Request $request)
+  public function listeMuseeAction(Request $request)
   {
- $musee = $this->getDoctrine()
-    ->getRepository('AppBundle:Musee')
-    ->findAll();
+   $musee = $this->getDoctrine()
+   ->getRepository('AppBundle:Musee')
+   ->findAll();
 
-     $paginator  = $this->get('knp_paginator');
-    $pagination = $paginator->paginate(
-        $musee,
-        $request->query->get('page', 1)/*page number*/,
-        10/*limit per page*/
+   $paginator  = $this->get('knp_paginator');
+   $pagination = $paginator->paginate(
+    $musee,
+    $request->query->get('page', 1)/*page number*/,
+    10/*limit per page*/
     );
-    return $this->render('list.html.twig', array('pagination' => $pagination));
+   return $this->render('liste.html.twig', array('pagination' => $pagination));
 
-  }
-  /**
-  * Show Ten Musees
-  * @Route("/showTen/{nbpage}", name="show_musees")
-  */
-  public function showTenAction($nbpage,Request $request)
-  {
-    $musee = $this->getDoctrine()
-    ->getRepository('AppBundle:Musee')
-    ->findAll();
+ }
 
-     $paginator  = $this->get('knp_paginator');
-    $pagination = $paginator->paginate(
-        $musee,
-        $request->query->get('page', 1)/*page number*/,
-        10/*limit per page*/
-    );
-    return $this->render('list.html.twig', array('pagination' => $pagination));
-
-/*
-    if (!$musee0) {
-      throw $this->createNotFoundException(
-        'AUCUN MUSEE N\'EST TROUVEE'
-        );
-    }
-
-    $musee =array();
-    foreach ($musee0 as $key => $value) {
-      $musee[ $musee0[$key]->getId()]=$value;
-    }
-
-    //Remplissage de tableau des musees à afficher
-    $tableauDeMusee= array();
-    for ($i=$nbpage; $i < $nbpage+10; $i++) { 
-      array_push($tableauDeMusee, array('id'=> $musee[$i]->getId(),'nom'=>$musee[$i]->getNom(),'adresse'=>$musee[$i]->getAdresse(),'key'=>'/showMusee/'.$musee[$i]->getId()));
-    }
-
-    //Pour le deplacements entre les pages des musees( page de 10 )
-    $dernier=max(array_keys($musee))-10;
-    $debut=min(array_keys($musee));
-    $precedent=$nbpage-10<0?0:$nbpage-10;
-    $suivant=$nbpage+10>$dernier?$dernier:$nbpage+10;
-
-    return $this->render('showTen.html.twig',array( 'tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));*/
-  }
-
- /**
+    /**
   * Calcul note 
   */
- public function calculNote($comments=array())
- {
+    public function calculNote($comments=array())
+    {
 
-  $note=0.00;
-  $nbAuteur=0;
-  if (isset($comments)) {
-    foreach ($comments as $key => $value) {
-      $note+=$value['note'];
-      $nbAuteur++;
+      $note=0.00;
+      $nbAuteur=0;
+      if (isset($comments)) {
+        foreach ($comments as $key => $value) {
+          $note+=$value['note'];
+          $nbAuteur++;
+        }
+        if ($nbAuteur>0) {
+          $note=$note/$nbAuteur;
+        }
+      }
+      return $note;
     }
-    if ($nbAuteur>0) {
-      $note=$note/$nbAuteur;
-    }
-  }
-  return $note;
-}
-
-
 
   /**
   * Show one musee with informations
-  * @Route("/showMusee/{id}", name="show_musee")
+  * @Route("/unMusee/{id}", name="un_musee")
   *@Method({"GET", "POST"})
   */
-  public function showMuseeAction($id,Request $request)
+  public function unMuseeAction($id,Request $request)
   {
     //Récupération de musee par son id
     $musee = $this->getDoctrine()
@@ -175,64 +128,25 @@ return $this->render('newMusee.html.twig', array(
       return $this->redirect($request->getUri());
     }
 
-    $urlRetour="showTen/".$id;
-    return $this->render('showMusee.html.twig',array('lat'=>$lat,'lon'=>$lon,'note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour,'form' => $form->createView()));
+    $urlRetour="liste";
+    return $this->render('unMusee.html.twig',array('lat'=>$lat,'lon'=>$lon,'note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour,'form' => $form->createView()));
 
-  }
-
-
-   /**
-  * @Route("/parArr/{id}", name="par_arr")
-  */
-   public function parArrondissementAction($id,Request $request)
-   {
-    $nbpage=2;
-
-    //Les arrondissmeents de paris
-    $musee = $this->getDoctrine()
-    ->getRepository('AppBundle:Musee')
-    ->findByArrondissement($id);
-
-    if (!$musee) {
-      throw $this->createNotFoundException(
-        'AUCUN MUSEE N\'EST TROUVEE'
-        );
-    }
-
-    var_dump($musee);
-    exit();
-
-
-    //Remplissage de tableau des musees à afficher
-    $tableauDeMusee= array();
-    for ($i=$nbpage; $i < $nbpage+3; $i++) { 
-      array_push($tableauDeMusee, array('id'=> $i,'nom'=>$musee[$i]->getNom(),'adresse'=>$musee[$i]->getAdresse(),'key'=>'/showMusee/'.$i));
-    }
-
-    //Pour le deplacements entre les pages des musees( page de 10 )
-    $dernier=count($musee)-3;
-    $debut=0;
-    $precedent=$nbpage-3<0?0:$nbpage-3;
-    $suivant=$nbpage+3>$dernier?$dernier:$nbpage+3;
-
-    return $this->render('showTen.html.twig',array('tableau' => $tableauDeMusee, 'debut' => $debut,'precedent' => $precedent,'suivant' => $suivant,'dernier' =>$dernier));
   }
 
    /**
    *Selection de l'arrondissement 
-  * @Route("/Arrondissement", name="arrondissements")
+  * @Route("/paris", name="paris_arrondissements")
   */
-   public function ArrondissementAction(Request $request)
+   public function ArrondissementMuseeAction(Request $request)
    {
-
-    return $this->render('arrondissement.html.twig');
+    return $this->render('paris.html.twig');
   }
 
    /**
    *Selection de l'arrondissement 
   * @Route("/parisArrondissement/{id}", name="Paris")
   */
-   public function parisArrondissementAction($id,Request $request)
+   public function parisArrondissementMuseeAction($id,Request $request)
    {
 
 
@@ -246,11 +160,6 @@ return $this->render('newMusee.html.twig', array(
         'AUCUN MUSEE N\'EST TROUVEE'
         );
     }
-
-
-    //var_dump($musee);
-   // exit();
-
-     return $this->render('showArrondissement.html.twig', array('tableau'=>$musee,'ar'=>$id));
-   }
- }
+    return $this->render('parisArrondissement.html.twig', array('tableau'=>$musee,'ar'=>$id));
+  }
+}

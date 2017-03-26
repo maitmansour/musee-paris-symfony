@@ -2,24 +2,31 @@
 
 
 {% block body %}
+
+
 <div id="wrapper">
 	<div class="container">
-		<h1 align="center" ><span>{{ musee.nom }} </span> </h1>
-		<table class="table">
-			<th>Nom</th>
-			<th>Adresse</th>
-			<th>Site web</th>
-			<th>Ville</th>
-			<th>Ouvert ?</th>
-			<th>Note</th>
+		<h1 align="center" ><span>{{ musee.nom }} </span>   </h1>
+		<table class="table table-striped">
 
-			<tr>
+
+			<tr><th>Nom</th>
 				<td>{{ musee.nom }} </td>
+			</tr>
+			<tr><th>Adresse</th>
 				<td>{{ musee.adresse }}  </td> 
+			</tr>
+			<tr><th>Site web</th>
 				<td><a href="http://{{ musee.siteWeb }}" target="_blank"  >{{ musee.siteWeb }}</a> </td>
+			</tr>
+			<tr><th>Ville</th>
 				<td>{{ musee.ville }} </td>
+			</tr>
+			<tr><th>Ouvert ?</th>
 				<td>{{ musee.statut }} </td>
-				<td>{{ note }}  </td> 
+			</tr>
+			<tr><th>Note</th>
+				<td><span class="stars">{{ note }}</span> </td> 
 			</tr>
 		</table>
 		<h1 align="center" ><span>Commentaires </span> </h1>
@@ -30,6 +37,7 @@
 			<th>Commentaire</th>
 			<th>Date</th>
 			<th>Note</th>
+
 
 			{% for key, comment in comments %}
 			<tr>
@@ -53,6 +61,7 @@
 		<div id="map" style="height: 500px;"></div>
 
 		<h1 align="center" ><span>Ajouter un commentaire </span> </h1>
+
 
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
@@ -95,6 +104,43 @@
 
 			draw_map(data);
 
+		</script>
+		<style type="text/css">
+			span.stars, span.stars span {
+				display: block;
+				background: url(/stars.png) 0 -16px repeat-x;
+				width: 80px;
+				height: 16px;
+			}
+
+			span.stars span {
+				background-position: 0 0;
+			}
+
+
+
+		</style>
+
+		<script type="text/javascript">
+			$.fn.stars = function() {
+				return $(this).each(function() {
+        // Get the value
+        var val = parseFloat($(this).html());
+        // Make sure that the value is in 0 - 5 range, multiply to get width
+        var size = Math.max(0, (Math.min(5, val))) * 16;
+        // Create stars holder
+        var $span = $('<span />').width(size);
+        // Replace the numerical value with stars
+        $(this).html($span);
+    });
+			}
+
+		</script>
+
+		<script type="text/javascript">
+			$(function() {
+				$('span.stars').stars();
+			});
 		</script>
 
 	</div>
