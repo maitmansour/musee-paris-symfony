@@ -10,49 +10,71 @@ namespace AppBundle\Repository;
  */
 class MuseeRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findArrondissements()
+  public function findArrondissements()
   {
-      $query = $this->getEntityManager()
-          ->createQuery(
-              'SELECT DISTINCT m.codePostal, m.id FROM AppBundle:Musee m
-              WHERE m.codePostal>75000 AND m.codePostal < 75020'
-          );
+    $query = $this->getEntityManager()
+    ->createQuery(
+      'SELECT DISTINCT m.codePostal, m.id FROM AppBundle:Musee m
+      WHERE m.codePostal>75000 AND m.codePostal < 75020'
+      );
 
-      try {
-          return $query->getArrayResult();
-      } catch (\Doctrine\ORM\NoResultException $e) {
-          return null;
-      }
+    try {
+      return $query->getArrayResult();
+    } catch (\Doctrine\ORM\NoResultException $e) {
+      return null;
+    }
   }
-    public function findByArrondissement($cp)
+  public function findByArrondissement($cp)
   {
 
-    
-      $query = $this->getEntityManager()
-          ->createQuery(
-              'SELECT  m FROM AppBundle:Musee m
-              WHERE m.codePostal=750'.$cp
-          );
 
-      try {
-          return $query->getArrayResult();
-      } catch (\Doctrine\ORM\NoResultException $e) {
-          return null;
-      }
+    $query = $this->getEntityManager()
+    ->createQuery(
+      'SELECT  m FROM AppBundle:Musee m
+      WHERE m.codePostal=750'.$cp
+      );
+
+    try {
+      return $query->getArrayResult();
+    } catch (\Doctrine\ORM\NoResultException $e) {
+      return null;
+    }
   }
 
-      public function findMinId()
+  public function findMinId()
   {
-      $query = $this->getEntityManager()
-          ->createQuery(
-              'SELECT  MIN(m.id) FROM AppBundle:Musee m'
-          );
+    $query = $this->getEntityManager()
+    ->createQuery(
+      'SELECT  MIN(m.id) FROM AppBundle:Musee m'
+      );
 
-      try {
-          return $query->getSingleScalarResult();
-      } catch (\Doctrine\ORM\NoResultException $e) {
-          return null;
-      }
+    try {
+      return $query->getSingleScalarResult();
+    } catch (\Doctrine\ORM\NoResultException $e) {
+      return null;
+    }
+  }
+  public function deleteById($id)
+  {
+
+    $query1 = $this->getEntityManager()
+    ->createQuery(
+      'DELETE FROM AppBundle:Commentaire c WHERE c.musee= ?1 ');
+    $query1->setParameter(1, $id);
+
+
+    $query2 = $this->getEntityManager()
+    ->createQuery(
+      'DELETE FROM AppBundle:Musee m WHERE m.id= ?1 ');
+    $query2->setParameter(1, $id);
+
+    try {
+      $query1->execute();
+      $query2->execute();
+      return true;
+    } catch (\Doctrine\ORM\NoResultException $e) {
+      return false;
+    }
   }
 
 

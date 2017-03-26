@@ -23,17 +23,18 @@ class CommentaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
      $builder
-     ->add('auteur', TextType::class)
-    ->add('contenu', TextType::class)
+    // ->add('auteur', TextType::class)
+    ->add('Contenu', TextType::class)
     ->add('Note',  ChoiceType::class, array(
       'choices'  => array(
-        '1' =>1 ,
-        '2' =>2 ,
-        '3' =>3 ,
-        '4' =>4 ,
-        '5' =>5 ,
+        '★' =>1 ,
+        '★★' =>2 ,
+        '★★★' =>3 ,
+        '★★★★' =>4 ,
+        '★★★★★' =>5 ,
         )))
-    ->add('Valider', SubmitType::class, array('label' => 'Commenter'))
+         ->add('Commenter', SubmitType::class, array(
+    'attr' => array('class' => 'btn btn-success btn-lg btn-block')))
      ;
 
 

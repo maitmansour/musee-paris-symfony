@@ -4,15 +4,21 @@
 {% block body %}
 <div id="wrapper">
 	<div class="container">
-		<h1 align="center" ><span> Accueil </span> </h1>
+		<h1 align="center" ><span> Menu </span> </h1>
 		<table class="table">
-			<tr>
-			<br>
-			<br>
-				<td align="center"><a class="btn btn-info" href='/liste' role="button">Page de de 10</a> </td> 
-				<td align="center"><a class="btn btn-info" href='/new' role="button">Ajouter un nouveau Musee</a> </td> 
-				<td align="center"><a class="btn btn-info" href='/paris' role="button">Arrondissement</a> </td> 
-			</tr>
+			<tr><td align="center"><a class="btn btn-primary btn-lg btn-block" href='/liste' role="button">Découvrir tout les musées</a> </td> </tr>
+			<tr><td align="center"><a class="btn btn-primary btn-lg btn-block" href='/paris' role="button">Voir les Musées de paris</a> </td> </tr>
+			{% if is_granted('ROLE_ADMIN') %}
+			<tr><td align="center"><a class="btn btn-success btn-lg btn-block" href='/new' role="button">Ajouter un nouveau Musee</a> </td> </tr>
+			{% endif %}
+			{% if app.user %}
+			<tr><td align="center"><a class="btn btn-danger btn-lg btn-block" href='/logout' role="button">Se déconnecter</a> </td> </tr>
+
+			{% else %}
+			<tr><td align="center"><a class="btn btn-success btn-lg btn-block" href='/login' role="button">Se connecter</a> </td> </tr>
+			<tr><td align="center"><a class="btn btn-success btn-lg btn-block" href='/register' role="button">S'enregistrer</a> </td> </tr>
+			{% endif %}
+
 		</table>
 	</div>
 </div>

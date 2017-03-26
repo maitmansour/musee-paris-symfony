@@ -2,6 +2,7 @@
 // src/AppBundle/Controller/MuseeController.php
 
 namespace AppBundle\Controller;
+use AppBundle\Controller\CommentaireController;
 use AppBundle\Form\MuseeType;
 use AppBundle\Entity\Commentaire;
 use AppBundle\Entity\Musee;
@@ -27,24 +28,25 @@ class MuseeController extends Controller
   */
 public function newMuseeAction(Request $request)
 {
+  $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
 
   //Géneration de form
- $musee = new Musee();
- $form = $this->createForm('AppBundle\Form\MuseeType', $musee);
+  $musee = new Musee();
+  $form = $this->createForm('AppBundle\Form\MuseeType', $musee);
 
  //Traitement des informations de formulaire
- $form->handleRequest($request);
- if ($form->isSubmitted() && $form->isValid()) {
-  $manager = $this->getDoctrine()->getManager();
-  $manager->persist($musee);
-  $manager->flush();
+  $form->handleRequest($request);
+  if ($form->isSubmitted() && $form->isValid()) {
+    $manager = $this->getDoctrine()->getManager();
+    $manager->persist($musee);
+    $manager->flush();
 
-  return $this->redirect('/');
-}
+    return $this->redirect('/');
+  }
 
-return $this->render('newMusee.html.twig', array(
- 'form' => $form->createView(),
- ));
+  return $this->render('newMusee.html.twig', array(
+   'form' => $form->createView(),
+   ));
 
 }
 
@@ -68,26 +70,6 @@ return $this->render('newMusee.html.twig', array(
 
  }
 
-    /**
-  * Calcul note 
-  */
-    public function calculNote($comments=array())
-    {
-
-      $note=0.00;
-      $nbAuteur=0;
-      if (isset($comments)) {
-        foreach ($comments as $key => $value) {
-          $note+=$value['note'];
-          $nbAuteur++;
-        }
-        if ($nbAuteur>0) {
-          $note=$note/$nbAuteur;
-        }
-      }
-      return $note;
-    }
-
   /**
   * Show one musee with informations
   * @Route("/unMusee/{id}", name="un_musee")
@@ -104,32 +86,70 @@ return $this->render('newMusee.html.twig', array(
     $comments = $this->getDoctrine()
     ->getRepository('AppBundle:Commentaire')
     ->findByIdJoinedToMusee($id);
-    $note= self::calculNote($comments);
+    $note= CommentaireController::calculNote($comments);
 
     //extraction des coordonnées
     $latlon=explode(";", $musee->getCoordonnees());
     $lat=$latlon['0'];
     $lon=$latlon['1'];
 
-    //Géneration de formulaire des commentaires
-    $commentaire = new Commentaire();
-    $form = $this->createForm('AppBundle\Form\CommentaireType', $commentaire);
-
-    //Traitements des informations de formulaire
-    $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid()) {
-      $manager = $this->getDoctrine()->getManager();
-      $commentaire->setDate(new \DateTime("now"));
-      $commentaire->setMusee($musee);
-      $manager->persist($commentaire);
-      $manager->flush();
-
-      //Retour vers la page du musee
-      return $this->redirect($request->getUri());
-    }
-
     $urlRetour="liste";
-    return $this->render('unMusee.html.twig',array('lat'=>$lat,'lon'=>$lon,'note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour,'form' => $form->createView()));
+    return $this->render('unMusee.html.twig',array('lat'=>$lat,'lon'=>$lon,'note'=>$note,'musee' => $musee,'comments' => $comments, 'retour' =>$urlRetour));
+
+  }
+
+
+  /**
+  * Show one musee with informations
+  * @Route("/unMusee/{id}/delete", name="delete_musee")
+  *@Method({"GET", "POST"})
+  */
+  public function deleteMuseeAction($id,Request $request)
+  {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+    //Récupération de musee par son id
+    $result = $this->getDoctrine()
+    ->getRepository('AppBundle:Musee')
+    ->deleteById($id);
+
+    if ($result) {
+    return $this->redirect('/liste');
+    }else{
+      return $this->redirect($request->getUri());
+
+    }
+  }
+
+  /**
+  * Show one musee with informations
+  * @Route("/unMusee/{id}/edit", name="edit_musee")
+  *@Method({"GET", "POST"})
+  */
+  public function editMuseeAction($id,Request $request)
+  {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+    //Récupération de musee par son id
+    $musee = $this->getDoctrine()
+    ->getRepository('AppBundle:Musee')
+    ->find($id);
+
+  $form = $this->createForm('AppBundle\Form\MuseeType', $musee);
+
+ //Traitement des informations de formulaire
+  $form->handleRequest($request);
+  if ($form->isSubmitted() && $form->isValid()) {
+    $manager = $this->getDoctrine()->getManager();
+    $manager->persist($musee);
+    $manager->flush();
+
+    return $this->redirect('/unMusee/'.$id);
+  }
+
+  return $this->render('newMusee.html.twig', array(
+   'form' => $form->createView(),
+   ));
 
   }
 
