@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+
+
+{% if app.user %}
+<div class="alert alert-warning">
+<strong>Vous êtes déja connecté !!</strong> Cliquez ci-dessous pour ce déconnecter ou revenir à l'acceuil.
+</div>
+<br>
+<a class="btn btn-danger btn-lg btn-block" href='{{ path('fos_user_security_logout') }}' role="button"> {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>  
+<a class="btn btn-success btn-lg btn-block" href='/' role="button"> Acceuil</a>  
+
+{% else %}
+<div class="alert alert-success">
+  <strong>Connectez-vous </strong> en remplissant ce formulaire.
+</div>
+<br>
+
+{% if app.request.hasPreviousSession %}
+{% for type, messages in app.session.flashbag.all() %}
+{% for message in messages %}
+<div class="alert alert-danger" role="alert">
+    {{ message }} 
+</div>
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+
+<div>
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+</div>
+
+{% endif %}
+
+
+{% endblock %}

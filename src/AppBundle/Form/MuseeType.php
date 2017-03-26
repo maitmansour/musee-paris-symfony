@@ -37,7 +37,8 @@ class MuseeType extends AbstractType
      ->add('reouverture', TextType::class,['required' => false])
      ->add('fermetureAnnuelle', TextType::class,['required' => false])
      ->add('periodesOuverture', TextType::class,['required' => false])
-     ->add('save', SubmitType::class)
+     ->add('Enregistrer', SubmitType::class, array(
+    'attr' => array('class' => 'btn btn-success btn-lg btn-block')))
      ;
 
 

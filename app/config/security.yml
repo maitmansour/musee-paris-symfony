@@ -46,5 +46,7 @@ security:
             - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-            - { path: ^/musee/[0-9]+/edit$, role: ROLE_ADMIN }
-            - { path: ^/musee/[0-9]+/comment$, role: ROLE_USER }
+            - { path: ^/liste, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/new, role: ROLE_ADMIN } 
+            - { path: ^/unMusee/[0-9]+, role: IS_AUTHENTICATED_ANONYMOUSLY }
+            - { path: ^/unMusee/[0-9]+/comment$, role: ROLE_USER }
