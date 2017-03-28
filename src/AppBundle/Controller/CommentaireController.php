@@ -22,7 +22,7 @@ class CommentaireController extends Controller
     /**
   * Calcul note 
   */
-    public function calculNote($comments=array())
+    public static function calculNote($comments=array())
     {
 
     	$note=0.00;

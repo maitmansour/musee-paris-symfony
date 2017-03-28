@@ -176,9 +176,8 @@ public function newMuseeAction(Request $request)
     ->findByArrondissement($id);
 
     if (!$musee) {
-      throw $this->createNotFoundException(
-        'AUCUN MUSEE N\'EST TROUVEE'
-        );
+          return $this->redirect('/paris');
+
     }
     return $this->render('parisArrondissement.html.twig', array('tableau'=>$musee,'ar'=>$id));
   }
