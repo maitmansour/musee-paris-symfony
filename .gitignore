@@ -3,9 +3,9 @@ var
 vendor
 
 #composer
-composer.phar
-composer.json
-composer.lock
+#composer.phar
+#composer.json
+#composer.lock
 
 # Parameters
 app/config/parameters.yml
