@@ -12,6 +12,10 @@ $ git clone https://www-apps.univ-lehavre.fr/forge/Amazing/TP-MUSEE.git
 $ php composer.phar update
 ```
 
+Une erreur type : `[RuntimeException]                                                         
+  An error occurred when executing the "'cache:clear --no-warmup'" command:  
+  Could not open input file: app/console ` Va se générer, ignore le et passe à l'étape suivante !
+
 --- 
 
 ### Mise à jour de base de données
