@@ -11,8 +11,5 @@ vendor
 app/config/parameters.yml
 app/config/parameters.ini
 
-# Managed by Composer
-bin
-
 # Backup entities generated with doctrine:generate:entities command
 **/Entity/*~
