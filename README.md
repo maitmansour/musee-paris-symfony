@@ -8,7 +8,7 @@ Site web en symfony, Web-Info L3, réaliser par :
 ## Comment ça marche
 ### Installation
 ```sh
-$ git clone https://www-apps.univ-lehavre.fr/forge/Amazing/TP-MUSEE.git
+$ https://github.com/maitmansour/musee-paris-symfony.git
 $ php composer.phar update
 ```
 
